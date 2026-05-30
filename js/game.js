@@ -17,7 +17,11 @@ function levenshtein(a, b) {
 
 function scoreAnswer(guess, correct) {
   if (!guess || !guess.trim()) return "none";
-  const dist = levenshtein(guess, correct);
+  const g = guess.toLowerCase().trim();
+  const c = correct.toLowerCase().trim();
+  // Si la réponse est trop courte par rapport à la bonne réponse, c'est faux
+  if (g.length < Math.max(3, c.length * 0.4)) return "none";
+  const dist = levenshtein(g, c);
   if (dist <= GAME_CONFIG.maxTypoForFull) return "full";
   if (dist <= GAME_CONFIG.maxTypoForHalf) return "half";
   return "none";
