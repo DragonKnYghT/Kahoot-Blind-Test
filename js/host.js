@@ -24,7 +24,7 @@ window.addEventListener("DOMContentLoaded", () => {
   document.getElementById("room-code-display").textContent = roomCode;
   const playerUrl = window.location.origin + window.location.pathname.replace("host.html", "player.html");
   const joinUrl = playerUrl + "?code=" + roomCode;
-  document.getElementById("join-url-display").textContent = "";
+  document.getElementById("join-url-display").textContent = joinUrl.replace("https://", "");
 
   new QRCode(document.getElementById("qr-container"), {
     text: joinUrl, width: 160, height: 160,
