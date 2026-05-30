@@ -1,0 +1,307 @@
+/* css/style.css */
+:root {
+  --bg: #0d0d1a;
+  --bg2: #1a1a2e;
+  --card: #16213e;
+  --card2: #1e2a45;
+  --accent: #7c3aed;
+  --accent2: #a855f7;
+  --green: #10b981;
+  --yellow: #f59e0b;
+  --red: #ef4444;
+  --text: #f8fafc;
+  --text-muted: #94a3b8;
+  --radius: 12px;
+  --radius-lg: 20px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ---- SCREENS ---- */
+.screen {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+}
+.screen.active { display: flex; }
+
+/* ---- LOGO ---- */
+.logo {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.25rem;
+}
+
+/* ---- ROOM CODE ---- */
+.room-code {
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: 0.3em;
+  color: var(--accent2);
+  background: var(--card);
+  padding: 0.75rem 2rem;
+  border-radius: var(--radius);
+  border: 2px solid var(--accent);
+  margin: 0.75rem 0;
+}
+
+/* ---- QR ---- */
+#qr-container {
+  background: white;
+  padding: 12px;
+  border-radius: var(--radius);
+  margin: 0.75rem 0;
+}
+
+/* ---- PLAYERS GRID (lobby hôte) ---- */
+#players-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 720px;
+  margin-top: 1.25rem;
+}
+
+.player-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 0.9rem 0.75rem;
+  text-align: center;
+  border: 1px solid rgba(124,58,237,0.3);
+  animation: popIn 0.3s ease;
+  position: relative;
+}
+
+.player-card .online-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  position: absolute;
+  top: 8px; right: 8px;
+  animation: pulse 1.5s ease infinite;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.6); }
+}
+
+.player-avatar-display { font-size: 2.5rem; margin-bottom: 0.25rem; }
+.player-name-display {
+  font-size: 0.85rem; font-weight: 600;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.player-score-display { font-size: 0.75rem; color: var(--accent2); margin-top: 2px; }
+
+/* ---- BUTTONS ---- */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none; border-radius: var(--radius);
+  font-size: 1rem; font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s, opacity 0.15s;
+}
+.btn:hover { transform: translateY(-2px); opacity: 0.9; }
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--accent); color: white; }
+.btn-lg { padding: 1rem 2.5rem; font-size: 1.1rem; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+/* ---- VISUALIZER ---- */
+#visualizer-container {
+  width: 100%; max-width: 720px;
+  height: 160px;
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  overflow: hidden; position: relative;
+  margin: 1.25rem 0;
+  border: 1px solid rgba(168,85,247,0.3);
+}
+#visualizer { width: 100%; height: 100%; }
+
+.audio-status {
+  position: absolute; bottom: 10px; right: 14px;
+  font-size: 0.75rem; color: var(--text-muted);
+  display: flex; align-items: center; gap: 6px;
+}
+.pulse-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent2);
+  animation: pulse 1.2s ease infinite;
+}
+
+/* ---- TIMER ---- */
+.timer-wrap {
+  width: 100%; max-width: 720px;
+  background: var(--card); border-radius: 999px;
+  height: 8px; overflow: hidden; margin-bottom: 0.5rem;
+}
+.timer-bar {
+  height: 100%; background: var(--accent);
+  border-radius: 999px; transition: width 1s linear, background 0.5s;
+}
+
+/* ---- ANSWERS LIVE (hôte) ---- */
+#answers-live {
+  width: 100%; max-width: 720px;
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  justify-content: center; margin-bottom: 1rem;
+}
+.answer-chip {
+  background: var(--card); border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.8rem; border: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+.answer-chip.answered { border-color: var(--green); }
+
+/* ---- REVEAL ---- */
+.reveal-title { font-size: 2rem; font-weight: 800; margin-bottom: 0.15rem; }
+.reveal-artist { font-size: 1.2rem; color: var(--accent2); margin-bottom: 1.5rem; }
+
+#reveal-answers {
+  width: 100%; max-width: 640px;
+  display: flex; flex-direction: column; gap: 0.65rem;
+}
+.reveal-row {
+  display: flex; align-items: center; gap: 0.75rem;
+  background: var(--card); border-radius: var(--radius);
+  padding: 0.7rem 1rem;
+}
+.reveal-avatar { font-size: 1.5rem; }
+.reveal-name { flex: 1; font-weight: 600; text-align: left; font-size: 0.9rem; }
+.reveal-answer-text { flex: 2; font-size: 0.8rem; color: var(--text-muted); text-align: left; }
+.reveal-pts { font-size: 1.1rem; font-weight: 800; min-width: 40px; text-align: right; }
+.pts-full { color: var(--green); }
+.pts-half { color: var(--yellow); }
+.pts-none { color: var(--red); }
+
+/* ---- LEADERBOARD LIVE (hôte pendant jeu) ---- */
+#live-scores {
+  width: 100%; max-width: 720px;
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  justify-content: center; margin-top: 0.5rem;
+}
+.score-pill {
+  background: var(--card2); border-radius: 999px;
+  padding: 0.3rem 0.8rem; font-size: 0.8rem;
+  display: flex; align-items: center; gap: 5px;
+}
+.score-pill .s-pts { color: var(--accent2); font-weight: 700; }
+
+/* ---- PODIUM ---- */
+.podium {
+  display: flex; align-items: flex-end;
+  justify-content: center; gap: 1rem; margin: 2rem 0;
+}
+.podium-place { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+.podium-block {
+  width: 105px; background: var(--card);
+  border-radius: var(--radius) var(--radius) 0 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 1rem 0.5rem 0.5rem;
+}
+.podium-block.p1 { height: 180px; border-top: 3px solid var(--yellow); }
+.podium-block.p2 { height: 140px; border-top: 3px solid #94a3b8; }
+.podium-block.p3 { height: 110px; border-top: 3px solid #b45309; }
+.podium-rank { font-size: 1.5rem; font-weight: 800; }
+.podium-score { font-size: 0.8rem; color: var(--text-muted); }
+.podium-av { font-size: 2.2rem; }
+.podium-nm { font-size: 0.78rem; font-weight: 600; margin-top: 2px; max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+#full-leaderboard {
+  width: 100%; max-width: 500px;
+  display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;
+}
+.lb-row {
+  display: flex; align-items: center; gap: 1rem;
+  background: var(--card); border-radius: var(--radius);
+  padding: 0.7rem 1rem;
+}
+.lb-rank { font-weight: 800; min-width: 28px; }
+.lb-av { font-size: 1.4rem; }
+.lb-name { flex: 1; font-weight: 600; text-align: left; }
+.lb-score { font-weight: 800; color: var(--accent2); }
+
+/* ---- INPUTS ---- */
+input[type="text"] {
+  background: var(--card);
+  border: 1px solid rgba(124,58,237,0.5);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  width: 100%; max-width: 300px;
+  margin: 0.4rem 0; outline: none;
+  transition: border-color 0.2s;
+}
+input[type="text"]:focus { border-color: var(--accent2); }
+
+/* ---- AVATAR GRID ---- */
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px; margin: 1rem 0;
+}
+.avatar-btn {
+  font-size: 2rem; background: var(--card);
+  border: 2px solid transparent; border-radius: var(--radius);
+  padding: 6px; cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.avatar-btn:hover { transform: scale(1.1); }
+.avatar-btn.selected { border-color: var(--accent2); transform: scale(1.1); }
+
+/* ---- PLAYER LOBBY (téléphone) ---- */
+#other-players-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 0.6rem; width: 100%; max-width: 360px; margin-top: 1rem;
+}
+.mini-player-card {
+  background: var(--card); border-radius: var(--radius);
+  padding: 0.6rem 0.4rem; text-align: center;
+  border: 1px solid rgba(124,58,237,0.25);
+  animation: popIn 0.25s ease;
+}
+.mini-av { font-size: 1.6rem; }
+.mini-nm { font-size: 0.7rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---- BADGES ---- */
+.badge {
+  display: inline-block; padding: 0.35rem 1rem;
+  border-radius: 999px; font-size: 0.85rem; font-weight: 600;
+}
+.badge-green { background: var(--green); color: white; }
+.badge-red { background: var(--red); color: white; }
+.badge-yellow { background: var(--yellow); color: #000; }
+.badge-purple { background: var(--accent); color: white; }
+
+/* misc */
+.divider { width: 100%; max-width: 640px; height: 1px; background: rgba(255,255,255,0.08); margin: 1.25rem 0; }
+.mt1 { margin-top: 1rem; }
+.mt2 { margin-top: 2rem; }
+.muted { color: var(--text-muted); }
