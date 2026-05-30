@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎵 Blind Test — Joueur</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== REJOINDRE ===== -->
+<section id="join-screen">
+  <div class="lobby-logo">🎵 Blind Test</div>
+  <p style="color:var(--text-muted);margin-bottom:1.5rem;">Entre le code de la salle</p>
+
+  <input type="text" id="code-input" maxlength="6" placeholder="CODE" 
+         style="font-size:2rem;text-align:center;letter-spacing:0.3em;text-transform:uppercase;">
+
+  <div style="margin:1.5rem 0;font-size:0.9rem;color:var(--text-muted);">Ton pseudo</div>
+  <input type="text" id="name-input" maxlength="20" placeholder="Ton prénom">
+
+  <div style="margin:1.5rem 0;">
+    <div style="font-size:0.9rem;color:var(--text-muted);margin-bottom:0.75rem;">Choisis ton avatar</div>
+    <div class="avatar-grid" id="avatar-grid"></div>
+  </div>
+
+  <button class="btn btn-primary btn-lg" id="join-btn" onclick="joinGame()">Rejoindre 🎮</button>
+  <div id="join-error" style="color:var(--red);margin-top:0.75rem;font-size:0.85rem;"></div>
+</section>
+
+<!-- ===== SALLE D'ATTENTE ===== -->
+<section id="player-lobby" style="display:none;">
+  <div style="font-size:4rem;" id="my-avatar-big">🎵</div>
+  <div style="font-size:1.3rem;font-weight:700;margin:0.5rem 0;" id="my-name-display">—</div>
+  <div class="sent-badge" style="margin-bottom:1.5rem;">Connecté ✓</div>
+
+  <div id="lobby-waiting-msg" style="color:var(--text-muted);">
+    ⏳ En attente du début de la partie…
+  </div>
+
+  <div id="other-players" style="margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;"></div>
+</section>
+
+<!-- ===== JEU ===== -->
+<section id="player-game" style="display:none;">
+  <div class="song-number" id="p-song-number">Musique 1</div>
+  <div style="font-size:1.3rem;font-weight:600;margin:0.5rem 0;">🎧 Écoutez…</div>
+
+  <div style="width:100%;background:var(--card);border-radius:999px;height:8px;overflow:hidden;margin:1rem 0;max-width:300px;">
+    <div id="p-timer-bar" style="height:100%;background:var(--accent);border-radius:999px;width:100%;transition:width 1s linear;"></div>
+  </div>
+  <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1.5rem;">⏱ <span id="p-timer">45</span>s</div>
+
+  <div class="player-answer-box" id="answer-form">
+    <input type="text" id="p-artist" placeholder="🎤 Artiste…">
+    <input type="text" id="p-title" placeholder="🎵 Titre de la chanson…">
+    <button class="btn btn-primary" onclick="playerSubmit()">Envoyer ✓</button>
+  </div>
+
+  <div id="p-sent" style="display:none;">
+    <div class="sent-badge">✓ Réponse envoyée !</div>
+    <p style="color:var(--text-muted);font-size:0.85rem;margin-top:0.75rem;">En attente des autres joueurs…</p>
+  </div>
+</section>
+
+<!-- ===== RÉVÉLATION ===== -->
+<section id="player-reveal" style="display:none;">
+  <div style="font-size:0.85rem;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem;">La réponse était…</div>
+  <div style="font-size:1.8rem;font-weight:800;" id="p-reveal-title">—</div>
+  <div style="font-size:1.1rem;color:var(--accent2);margin:0.25rem 0 1.5rem;" id="p-reveal-artist">—</div>
+
+  <div id="p-result-badge" style="margin-bottom:0.5rem;"></div>
+  <div id="p-pts-earned" style="font-size:2rem;font-weight:900;"></div>
+  <div style="font-size:0.85rem;color:var(--text-muted);">Score total : <span id="p-total-score">0</span> pts</div>
+</section>
+
+<!-- ===== FINAL ===== -->
+<section id="player-final" style="display:none;">
+  <div class="lobby-logo">🏆 Fin !</div>
+  <div id="p-final-rank" style="font-size:1.2rem;color:var(--text-muted);margin:0.5rem 0;"></div>
+  <div id="p-final-score" style="font-size:3rem;font-weight:900;color:var(--accent2);"></div>
+  <div style="font-size:0.9rem;color:var(--text-muted);">points</div>
+
+  <div id="p-leaderboard" style="margin-top:2rem;width:100%;max-width:320px;display:flex;flex-direction:column;gap:0.5rem;"></div>
+</section>
+
+<script src="songs.js"></script>
+<script src="js/game.js"></script>
+<script src="js/sync.js"></script>
+<script src="js/player.js"></script>
+</body>
+</html>
