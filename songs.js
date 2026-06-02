@@ -6,21 +6,21 @@ const SONGS = [
     file: "assets/song1.mp3",
     artist: "The Beatles",
     title: "Let It Be",
-    previewDuration: 30,
+    previewDuration: 15,
   },
   {
     id: 2,
     file: "assets/song2.mp3",
     artist: "Queen",
     title: "Bohemian Rhapsody",
-    previewDuration: 30,
+    previewDuration: 15,
   },
   {
     id: 3,
     file: "assets/song3.mp3",
     artist: "Michael Jackson",
     title: "Thriller",
-    previewDuration: 30,
+    previewDuration: 15,
   },
   // Ajoute tes musiques ici !
 ];
@@ -30,5 +30,5 @@ const GAME_CONFIG = {
   pointsOneCorrect: 2,
   maxTypoForFull: 3,
   maxTypoForHalf: 5,
-  answerTimeSeconds: 45,
+  answerTimeSeconds: 15,
 };
