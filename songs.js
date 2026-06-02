@@ -1,93 +1,46 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎵 Blind Test — Hôte</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+// songs.js — Modifie ce fichier pour ajouter tes musiques
 
-<!-- ===== LOBBY ===== -->
-<section class="screen active" id="s-lobby">
-  <div class="logo">🎵 Blind Test</div>
-  <p class="muted" style="margin-bottom:1rem;">Scanne le QR code ou entre le code sur ton téléphone</p>
+const CATEGORIES = [
+  { id: "80s",      label: "🎸 Années 1980–1999", color: "#f59e0b" },
+  { id: "2000s",    label: "💿 Années 2000–2009", color: "#10b981" },
+  { id: "cartoons", label: "🎬 Dessins animés",   color: "#a855f7" },
+];
 
-  <div id="qr-container"></div>
-  <div class="room-code" id="room-code-display">——</div>
-  <div class="muted" style="font-size:0.8rem;" id="join-url-display"></div>
+const SONGS = [
+  // ---- 🎸 ANNÉES 1980-1999 ----
+  { id: 1,  category: "80s", file: "assets/song1.mp3",  artist: "Michael Jackson", title: "Billie Jean" },
+  { id: 2,  category: "80s", file: "assets/song2.mp3",  artist: "a-ha",            title: "Take On Me" },
+  { id: 3,  category: "80s", file: "assets/song3.mp3",  artist: "Oasis",           title: "Wonderwall" },
+  { id: 4,  category: "80s", file: "assets/song4.mp3",  artist: "Nirvana",         title: "Smells Like Teen Spirit" },
+  { id: 5,  category: "80s", file: "assets/song5.mp3",  artist: "Tears for Fears", title: "Everybody Wants to Rule the World" },
+  { id: 6,  category: "80s", file: "assets/song6.mp3",  artist: "Fools Garden",    title: "Lemon Tree" },
+  { id: 7,  category: "80s", file: "assets/song7.mp3",  artist: "AC/DC",           title: "Back In Black" },
 
-  <div class="divider"></div>
+  // ---- 💿 ANNÉES 2000-2009 ----
+  { id: 8,  category: "2000s", file: "assets/song8.mp3",  artist: "OutKast",             title: "Ms. Jackson" },
+  { id: 9,  category: "2000s", file: "assets/song9.mp3",  artist: "Dr. Dre",             title: "What's the Difference" },
+  { id: 10, category: "2000s", file: "assets/song10.mp3", artist: "Daft Punk",           title: "Veridis Quo" },
+  { id: 11, category: "2000s", file: "assets/song11.mp3", artist: "Gorillaz",            title: "Feel Good Inc." },
+  { id: 12, category: "2000s", file: "assets/song12.mp3", artist: "Linkin Park",         title: "In the End" },
+  { id: 13, category: "2000s", file: "assets/song13.mp3", artist: "Lady Gaga",           title: "Poker Face" },
+  { id: 14, category: "2000s", file: "assets/song14.mp3", artist: "The Black Eyed Peas", title: "I Gotta Feeling" },
 
-  <div class="muted" style="margin-bottom:0.75rem;">
-    Joueurs connectés : <strong id="player-count" style="color:var(--accent2)">0</strong>
-  </div>
+  // ---- 🎬 DESSINS ANIMÉS ----
+  { id: 15, category: "cartoons", file: "assets/song15.mp3", artist: "Les Daltons",             title: "Générique" },
+  { id: 16, category: "cartoons", file: "assets/song16.mp3", artist: "Shrek",                   title: "All Star" },
+  { id: 17, category: "cartoons", file: "assets/song17.mp3", artist: "Ninjago",                 title: "Weekend Whip" },
+  { id: 18, category: "cartoons", file: "assets/song18.mp3", artist: "Cars",                    title: "Life Is a Highway" },
+  { id: 19, category: "cartoons", file: "assets/song19.mp3", artist: "Kung Fu Panda",           title: "Kung Fu Fighting" },
+  { id: 20, category: "cartoons", file: "assets/song20.mp3", artist: "Toy Story",               title: "You've Got a Friend in Me" },
+  { id: 21, category: "cartoons", file: "assets/song21.mp3", artist: "Zootopie",                title: "Try Everything" },
+  { id: 22, category: "cartoons", file: "assets/song22.mp3", artist: "La Grande Aventure Lego", title: "Everything Is Awesome" },
+  { id: 23, category: "cartoons", file: "assets/song23.mp3", artist: "Moi, Moche et Méchant 2", title: "Happy" },
+];
 
-  <div id="players-grid"></div>
-
-  <div class="mt2">
-    <button class="btn btn-primary btn-lg" id="start-btn" disabled onclick="hostStartGame()">
-      Lancer la partie ▶
-    </button>
-    <div class="muted mt1" style="font-size:0.78rem;">Minimum 1 joueur requis</div>
-  </div>
-</section>
-
-<!-- ===== JEU ===== -->
-<section class="screen" id="s-game">
-  <div class="muted" id="song-number" style="letter-spacing:.1em;text-transform:uppercase;font-size:0.85rem;">Musique 1 / 3</div>
-  <div style="font-size:1.2rem;font-weight:600;margin:0.4rem 0;">🎧 Devinez l'artiste et le titre !</div>
-
-  <div id="visualizer-container">
-    <canvas id="visualizer"></canvas>
-    <div class="audio-status">
-      <div class="pulse-dot"></div>
-      <span id="audio-status-text">Lecture en cours…</span>
-    </div>
-  </div>
-
-  <div class="timer-wrap"><div class="timer-bar" id="timer-bar"></div></div>
-  <div class="muted" style="font-size:0.85rem;margin-bottom:1rem;">⏱ <span id="timer-display">45</span>s restantes</div>
-
-  <!-- Réponses en live -->
-  <div id="answers-live"></div>
-
-  <!-- Scores en live -->
-  <div class="muted" style="font-size:0.8rem;margin-bottom:0.4rem;">Scores actuels</div>
-  <div id="live-scores"></div>
-
-  <button class="btn btn-primary mt1" onclick="hostReveal()">Révéler ▶</button>
-</section>
-
-<!-- ===== RÉVÉLATION ===== -->
-<section class="screen" id="s-reveal">
-  <div class="muted" style="letter-spacing:.1em;text-transform:uppercase;font-size:0.85rem;margin-bottom:1rem;">La réponse était…</div>
-  <div class="reveal-title" id="reveal-title">—</div>
-  <div class="reveal-artist" id="reveal-artist">—</div>
-
-  <div id="reveal-answers"></div>
-
-  <button class="btn btn-primary mt2" id="next-btn" onclick="hostNextSong()">Musique suivante →</button>
-</section>
-
-<!-- ===== FINAL ===== -->
-<section class="screen" id="s-final">
-  <div class="logo">🏆 Résultats finaux</div>
-  <div class="podium" id="podium"></div>
-  <div id="full-leaderboard"></div>
-  <button class="btn btn-primary mt2" onclick="hostRestart()">Rejouer 🔄</button>
-</section>
-
-<!-- Firebase CDN -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-<!-- QR Code -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-<script src="songs.js"></script>
-<script src="js/game.js"></script>
-<script src="js/visualizer.js"></script>
-<script src="js/firebase-config.js"></script>
-<script src="js/host.js"></script>
-</body>
-</html>
+const GAME_CONFIG = {
+  pointsBothCorrect: 4,
+  pointsOneCorrect: 2,
+  maxTypoForFull: 3,
+  maxTypoForHalf: 5,
+  answerTimeSeconds: 15,
+};
