@@ -42,5 +42,5 @@ const GAME_CONFIG = {
   pointsOneCorrect: 2,
   maxTypoForFull: 3,
   maxTypoForHalf: 5,
-  answerTimeSeconds: 15,
+  answerTimeSeconds: 20,
 };
